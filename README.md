@@ -22,7 +22,7 @@ $\textbf{2. Description of Dataset}$
 
 README file of the dataset, provided by the University of Minnesota:
 
-https://files.grouplens.org/datasets/movielens/ml-latest-README.html
+[ml-latest-README.html](https://files.grouplens.org/datasets/movielens/ml-latest-README.html)
 
 > This dataset (ml-latest) describes 5-star rating and free-text tagging activity from MovieLens, a movie recommendation service. It contains 27753444 ratings and 1108997 tag applications across 58098 movies. These data were created by 283228 users between January 09, 1995 and September 26, 2018. This dataset was generated on September 26, 2018. Users were selected at random for inclusion. All selected users had rated at least 1 movies. No demographic information is included. Each user is represented by an id, and no other information is provided.
 
@@ -135,6 +135,10 @@ Some defaults numbers are initially chosen. I have specified the macro to show *
 
 Below are some outputs generated:
 
+<br> 
+
+$\textbf{\large Genre: Action}$
+
 ``` %program(genre = "Action", numTags = 3, numMovies = 5, sortby=0);```
 
 <p align="center">
@@ -143,8 +147,10 @@ Below are some outputs generated:
 
 **Table 4: Top 5 Action movies with 3 tags – sort from highest ratings to lowest**
 
- <br>
- 
+<br>
+
+$\textbf{\large Genre: Comedy}$
+
 ```%program(genre = "Comedy", numTags = 5, numMovies = 10, sortby=1);```
 
 <p align="center">
@@ -155,6 +161,8 @@ Below are some outputs generated:
 
  <br>
  
+ $\textbf{\large Genre: Horror}$
+ 
 ```%program(genre = "Horror", numTags = 5, numMovies = 10, sortby=2);```
 
 <p align="center">
@@ -164,6 +172,8 @@ Below are some outputs generated:
 **Table 6: Top 10 Horror movies with 5 tags – sort from oldest movies to newest movies**
 
 <br>
+
+ $\textbf{\large Genre: Musical}$
  
 ```Calling %program(genre = "Musical", numTags = 3, numMovies = 20, sortby=3);```
 
@@ -176,7 +186,10 @@ Below are some outputs generated:
 <br>
 
 
+$\textbf{\large Genre: Sci-Fi}$
+
 ```Calling %program(genre = "Sci-Fi", numTags = 2, numMovies = 5, sortby=4);```
+
 
 <p align="center">
   <img width="629" alt="Screen Shot 2022-08-15 at 03 47 19" src="https://user-images.githubusercontent.com/84951426/184596415-4d37d4c4-adca-4389-b923-7df70dd7bcb0.png">
@@ -184,6 +197,56 @@ Below are some outputs generated:
 
 **Table 8: Top 5 Sci-Fi movies with 5 tags – sort from oldest movies to newest movies, by highest ratings**
 
+<br>
 
-...Updating...
+**D. Visualize suggested movies based on user-specified settings**
+
+As mentioned before, the print= option in macro is useful in this scenario. I have created another macro called genres_scores, and this macro has the following input parameters: `numMovies`, `start`, `genre`
+
+To further explain it, this macro created several bar plots based on the genre specified. The user will automatically receive three different bar plots: one with the general ratings for a specified range of movies (`numMovies =`), one with the highest to lowest ratings of newest to oldest movies, and one with the highest to lowest ratings of oldest to newest movies. The user can specify the where they want to look at within the data, or specifically, they can look at the 20<sup>th</sup> or 50<sup>th</sup> movie within that genre of interest. Using `start =` will help them identify the index of movies that they want to look at.
+
+This macro makes use of the information from the previous macro, which has a print statement default in it, so `print =` will specify whether or not the user wants the table to be printed again when they look at the bar plots. The parameter `print = 0` will not print the tables, while `print = 1` does.
+One note that should be useful: Users _CANNOT_ specify the start that is more than 58090, since that the maximum number of movies in _TOTAL_, not for each genre.
+
+Below are the example bar plots for the Action genre, sorted:
+
+**Note: This function automatically creates 3 bar plots: 1 General, 1 sorted from newest to oldest, and vice versa.
+
+<br>
+
+```Calling %genres_scores(numMovies= 10, start=1, genre = "Action");```
+
+<p align="center">
+  <img width="586" alt="Screen Shot 2022-08-15 at 13 31 38" src="https://user-images.githubusercontent.com/84951426/184685662-e9718340-a9ef-42af-8b75-e41a36950e41.png">
+</p>
+
+**Figure 3: Bar plots of general ratings of different movies for Action genre**
+
+<p align="center">
+  <img width="718" alt="Screen Shot 2022-08-15 at 12 56 43" src="https://user-images.githubusercontent.com/84951426/184680152-c90bbe6d-8ea6-489f-8b75-5fc76e268b5d.png">
+</p>
+
+**Figure 4: Bar plots of ratings of different movies for Action genre, from newest movies to oldest**
+
+<p align="center">
+  <img width="716" alt="Screen Shot 2022-08-15 at 12 56 55" src="https://user-images.githubusercontent.com/84951426/184680186-781985ea-50b3-47bc-bc74-5c81606063e1.png">
+</p>
+
+**Figure 5: Bar plots of ratings of different movies for Action genre, from oldest movies to newest**
+
+<br>
+
+$\textbf{ \large IV. About the displays}$
+
+Above, I have made comments regarding the visualizations of tables and plots. They are very useful data for the users to consider when selecting a movie based on genre. The genre is a very broad term to use, so it is also a useful tool to look at. Some of the tags mentioned: “wwi,” “greed,” “classic,” “amazing,” etc, so the users can look at this and determine whether or not they want to watch those movies.
+
+I explained the first two tables regarding sorting very clearly above. These tables are just a pre review for all process that will be done later. They are just to see the correctness of my code. The next two plots provide data visualization for average rating scores across movies ID. I showed two different method of displaying – one with bar plot and one with line plot. I discovered that the line plot created a misunderstanding in data analysis, so I proceed with the bar plot.
+
+To further explain my last tables, you can take a look at them above. I displayed five different scenarios where the users can specify the macros. Movie names are suggested first, and genres follow. Notice that the movies are not purely of one genres – some are crime + comedy, or some are war + comedy. These are two very different genres, so this is where the usefulness of the tags comes in. Because the movies are still under that specific genre, it would still be listed in the table. There are hardly any movies in the dataset that is a pure genre, so this is why I have to list them all. Also, the genre has to be one listed Section II Part C. Then, the tags are listed as different columns for easiness in visualization. Next to the tags are the release year of the movies, taken directly from the movie names. Some of the movie names failed to have the release year there, resulting in missing years. Those movies with missing years are not listed if the users want movie suggestions by year. The last column is the average ratings score by the users. These are very trust-worthy, as they are rated by the randomly chosen users, and there are a huge amount of ratings that I used to compute these averages. I have sorted them from highest to lowest, so that the users can see the movies that is most worthy to be watched based on the genre that they like. Those who preferred to see release years, however, will also get the option of both release year and ratings, if specified as instructed.
+
+$\textbf{ \large V. Conclusion}$
+
+This program is made to be user-friendly, although it still needs to be updated a lot. Through this program, the user can specify everything that they like, from a wide range of genres and tags related, without going to Google and looking at the data themselves. Apart from that, they can get a good look at the ratings trend for many different movies of that genre, if they prefer too! Just by a single line of code, users can enjoy a lovely Sunday with themselves or their families, with a variety of suggestions of movies. If anyone feels like 2018 – modern and technologically, then specify a range of newest movies. Or if they feel like reminiscing the past – movies from 1926 are waiting.
+
+This program was built with the intention to help users get to their favorite movie selection as fast as possible – with the hope that enough information is display for users to consider. I hope that many users will find it helpful.
 
